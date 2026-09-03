@@ -1,1 +1,1 @@
-[**Посмотреть сайт**](https://alex-mangust.github.io/Slaiders/)
+[**Посмотреть сайт**](https://alex-mangust.github.io/Sliders-test/)

@@ -1,7 +1,8 @@
 window.addEventListener("load", function () {
     const slider = document.querySelector(".slider__inside");
     let slides = Array.from(slider.children);
-
+    let nextSlayde = true;
+    
     const indicators = document.querySelector(".indicators");
     slides.forEach(() => {
         const indicator = document.createElement("div");
@@ -40,7 +41,6 @@ window.addEventListener("load", function () {
         }, 10000)
     };
 
-    let nextSlayde = true;
 
     const sliderButtons = document.querySelectorAll(".button-slider");
     sliderButtons.forEach(button => {
@@ -49,7 +49,7 @@ window.addEventListener("load", function () {
                 nextSlayde = false;
                 clearInterval(timer);
                 if (button.classList.contains("right")) {
-                    shiftSlayder -= widthSlayde;``
+                    shiftSlayder -= widthSlayde;
                     setIndexSlayde(indexSlayde + 1);
                 } else {
                     shiftSlayder += widthSlayde;
@@ -69,11 +69,11 @@ window.addEventListener("load", function () {
     function shift() {
         slider.style.transform = `translateX(${shiftSlayder}px)`;
         let animation = true;
-        if (indexSlayde == slides.length - 1) {
+        if (indexSlayde >= slides.length - 1) {
             setIndexSlayde(1);
             shiftSlayder = -widthSlayde;
             animation = false;
-        } else if (indexSlayde == 0) {
+        } else if (indexSlayde <= 0) {
             setIndexSlayde(slides.length - 2);
             shiftSlayder -= widthSlayde * 6;
             animation = false;
@@ -89,7 +89,6 @@ window.addEventListener("load", function () {
             if (event.propertyName != "transform") {
                 return;
             }
-            nextSlayde = true;
 
             slider.removeEventListener("transitionend", transitionEnd);
 
@@ -98,16 +97,20 @@ window.addEventListener("load", function () {
                 slider.style.transform = `translateX(${shiftSlayder}px)`;
             }
         });
+        nextSlayde = true;
     }
 
     function setIndexSlayde(newData) {
-        if (indexSlayde < slides.length - 1) {
-            Array.from(indicators.children)[indexSlayde - 1].classList.remove("indicators__item_active");
-        }
+        Array.from(indicators.children).forEach(indicator => {
+            indicator.classList.remove("indicators__item_active");
+        });
         indexSlayde = newData;
-        if (indexSlayde < slides.length - 1) {
+        console.log(indexSlayde);
+        if (indexSlayde < slides.length - 1 && indexSlayde != 0) {
             Array.from(indicators.children)[indexSlayde - 1].classList.add("indicators__item_active");
-
+        } else {
+            console.log(Array.from(indicators.children));
+            Array.from(indicators.children)[Array.from(indicators.children).length - 1].classList.add("indicators__item_active");
         }
     }
 });
